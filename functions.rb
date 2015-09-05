@@ -25,7 +25,7 @@ end
 
 def connect_to_github
 	name = query_for_user_name
-	if !name.empty?
+	if !name.empty? && check_if_input_valid?(name)
 		source = URL + name
 	    resp = Net::HTTP.get_response(URI.parse(source))
 	    data = resp.body
@@ -51,7 +51,7 @@ def check_if_input_valid? input
 	if input.empty?
 		return false
 	end
-	special = "?<>',?[]}{=-)(*&^%$#`~{}".split(//)
+	special = "?/\<>',?[]}{=-)(*&^%$#`~{}".split(//)
 	input.split(//).each {|s| 
 		if special.include? s
 			return false
